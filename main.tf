@@ -88,7 +88,7 @@ module "replication" {
 
   count = var.enable-replication ? 1 : 0
   depends_on = [module.primary-website.versioning, module.failover-website.versioning] #add additional failover versioning here
-}
+
   providers = { aws = aws.primary }
   
   source-bucket = module.primary-website.bucket
