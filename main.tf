@@ -9,9 +9,9 @@ terraform {
   }
 }
 
-variable "website-name" {
+variable "bucket-name" {
   type = string
-  description = "name of website / S3 buckets"
+  description = "name of the website S3 buckets - Note that this has to be globally unique (i.e., for any S3 bucket of any user worldwide)"
 }
 
 variable "enable-replication" {
@@ -65,7 +65,7 @@ module "primary-website" {
 
   providers = { aws = aws.primary }
 
-  name = var.website-name
+  name = var.bucket-name
   enable-versioning = var.enable-replication
   upload-content = var.enable-replication ? false : true
 }
@@ -75,7 +75,7 @@ module "failover-website" {
 
   providers = { aws = aws.failover }
 
-  name = "${var.website-name}-failover"
+  name = "${var.bucket-name}-failover"
   enable-versioning = var.enable-replication
   upload-content = var.enable-replication ? false : true
 }
