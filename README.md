@@ -9,31 +9,33 @@ A complete Terraform project to deploy an AWS cloud infrastructure for hosting a
 - CloudFront distribution for low latency public access
 - Optionally manages website content or configures replication between S3 buckets
 
+![Components_Final](https://github.com/smartIU/aws-static-website/assets/156700437/3f86e9e0-36e8-4a7a-9e6b-c06bc56e6942)
+(orange components are deployed conditionally)
 
 ## Setup
 
-- Create an AWS account: 
+- Create an AWS account:  
   https://aws.amazon.com
-- Install and configure the AWS CLI:
+- Install and configure the AWS CLI:  
   https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html 
-- Install Terraform: 
+- Install Terraform:  
   https://developer.hashicorp.com/terraform/install
 
 ## Variables
 
-- bucket-name:  name of the website S3 buckets
+- bucket-name:  name of the website S3 buckets  
    Note that this has to be globally unique (i.e., for any S3 bucket of any user worldwide)
    
-- primary-region: region for primary S3 bucket
+- primary-region: region for primary S3 bucket  
    This should be close to where you expect the majority of website visitors to come from
    
-- failover-region: region for failover S3 bucket
+- failover-region: region for failover S3 bucket  
    This should not be too close to your primary region
    
-- enable-replication: enable replication between S3 buckets
+- enable-replication: enable replication between S3 buckets  
    Note that this creates a lot of S3 requests and might thereby incur additional costs
    
-- enable-cloudfront-logging: enable standard logging of the CloudFront distribution
+- enable-cloudfront-logging: enable standard logging of the CloudFront distribution  
    This will create an additional S3 bucket in the US East (N. Virginia) region to put the logs
    
 - index-document: name of the index document for the website
@@ -80,10 +82,17 @@ Note that the website will be configured to allow https requests only.
 
 If the website cannot be browsed immediately, simply try again after a while, as the CloudFront distribution can take up to 15 minutes to be operational.
 
+You can check your cloud components in the AWS console: https://aws.amazon.com/console
+
+![buckets](https://github.com/smartIU/aws-static-website/assets/156700437/b3cecdc1-69ec-456f-a507-853dece2290d)
+
+![cloudfront](https://github.com/smartIU/aws-static-website/assets/156700437/3e4b400f-0215-4e8a-93e0-8ca7a36ce7b1)
 
 ## Common problems
 
-Not all regions are activated by default for a new AWS account.
+Some regions are disabled by default for a new AWS account. Especially if you want to serve your website in Africa or the Middle East you should activate these regions in your account administration: https://console.aws.amazon.com/billing/home#/account
+
+For some accounts an AWS internal verification process must be performed before you can create a CloudFront distribution. This can take several days.
 
 If only your failover bucket gets created and the primary bucket deployment runs into an error, you have most likely chosen a value for "bucket-name" that someone else has already taken. You should come up with a more unique name in this case.
 
