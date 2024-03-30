@@ -131,4 +131,4 @@ No changes in the modules have to be made.
 
 ### Disclaimer
 
-**No** part of the app or its documentation was created by or with the help of artificial intelligence.
+**No** part of the project or its documentation was created by or with the help of artificial intelligence.
